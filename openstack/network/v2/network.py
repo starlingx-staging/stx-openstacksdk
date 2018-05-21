@@ -116,6 +116,8 @@ class Network(resource.Resource, tag.TagMixin):
     #: A list of assocaited tags
     #: *Type: list of tag strings*
     tags = resource.Body('tags', type=list)
+    #: WRS extensions.
+    qos = resource.Body('wrs-tm:qos')
 
 
 class DHCPAgentHostingNetwork(Network):

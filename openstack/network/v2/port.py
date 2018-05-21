@@ -132,3 +132,7 @@ class Port(resource.Resource, tag.TagMixin):
     #: A list of assocaited tags
     #: *Type: list of tag strings*
     tags = resource.Body('tags', type=list)
+    #: WRS extensions.
+    vif_model = resource.Body('wrs-binding:vif_model')
+    mtu = resource.Body('wrs-binding:mtu')
+    mac_filtering = resource.Body('wrs-binding:mac_filtering')

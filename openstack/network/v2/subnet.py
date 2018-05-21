@@ -92,3 +92,4 @@ class Subnet(resource.Resource, tag.TagMixin):
     #: A list of assocaited tags
     #: *Type: list of tag strings*
     tags = resource.Body('tags', type=list)
+    wrs_net_vlan_id = resource.Body('wrs-net:vlan_id', type=int)

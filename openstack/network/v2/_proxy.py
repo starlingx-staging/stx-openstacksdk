@@ -51,6 +51,19 @@ from openstack.network.v2 import vpn_service as _vpn_service
 from openstack import proxy2
 from openstack import utils
 
+# wrs extensions
+from openstack.network.v2 import host as _host
+from openstack.network.v2 import portforwarding as _portforwarding
+from openstack.network.v2 import providernet as _providernet
+from openstack.network.v2 import providernet_connectivity_test \
+    as _providernet_connectivity_test
+from openstack.network.v2 import providernet_net_list as _providernet_net_list
+from openstack.network.v2 import providernet_range as _providernet_range
+from openstack.network.v2 import providernet_type as _providernet_type
+from openstack.network.v2 import qos as _qos
+from openstack.network.v2 import setting as _setting
+from openstack.network.v2 import tenant as _tenant
+
 
 class Proxy(proxy2.BaseProxy):
 
@@ -3033,3 +3046,573 @@ class Proxy(proxy2.BaseProxy):
         :rtype: :class:`~openstack.network.v2.vpn_service.VPNService`
         """
         return self._update(_vpn_service.VPNService, vpn_service, **attrs)
+
+    # wrs extension
+    # providernet
+    def providernets(self, **query):
+        """Return a generator of providernets
+
+        :param kwargs \*\*query: Optional query parameters to be sent to limit
+                                 the resources being returned.
+
+        :returns: A generator of providernet objects
+        :rtype: :class:`~openstack.network.v2.providernet.Providernet`
+        """
+        return self._list(_providernet.Providernet, paginated=False, **query)
+
+    def create_providernet(self, **attrs):
+        """Create a new providernet from attributes
+
+        :param dict attrs: Keyword arguments which will be used to create
+                           a :class:`~openstack.network.v2.providernet
+                                     .Providernet`,
+                           comprised of the properties on the Providernet
+                           class.
+
+        :returns: The results of providernet creation
+        :rtype: :class:`~openstack.network.v2.providernet.Providernet`
+        """
+        return self._create(_providernet.Providernet, **attrs)
+
+    def delete_providernet(self, providernet, ignore_missing=True):
+        """Delete a providernet
+
+        :param providernet:
+            The value can be either the ID of a providernet or a
+            :class:`~openstack.network.v2.providernet.Providernet` instance.
+        :param bool ignore_missing: When set to ``False``
+                    :class:`~openstack.exceptions.ResourceNotFound` will be
+                    raised when the providernet does not exist.
+                    When set to ``True``, no exception will be set when
+                    attempting to delete a nonexistent providernet.
+
+        :returns: ``None``
+        """
+        self._delete(_providernet.Providernet, providernet,
+                     ignore_missing=ignore_missing)
+
+    def find_providernet(self, name_or_id, ignore_missing=True):
+        """Find a single providernet
+
+        :param name_or_id: The name or ID of a providernet.
+        :param bool ignore_missing: When set to ``False``
+                    :class:`~openstack.exceptions.ResourceNotFound` will be
+                    raised when the resource does not exist.
+                    When set to ``True``, None will be returned when
+                    attempting to find a nonexistent resource.
+        :returns: One :class:`~openstack.network.v2.providernet.Providernet`
+                      or None
+        """
+        return self._find(_providernet.Providernet, name_or_id,
+                          ignore_missing=ignore_missing)
+
+    def get_providernet(self, providernet):
+        """Get a single providernet
+
+        :param providernet:
+            The value can be the ID of a providernet or a
+            :class:`~openstack.network.v2.providernet.Providernet` instance.
+
+        :returns: One :class:`~openstack.network.v2.providernet.Providernet`
+        :raises: :class:`~openstack.exceptions.ResourceNotFound`
+                 when no resource can be found.
+        """
+        return self._get(_providernet.Providernet, providernet)
+
+    def update_providernet(self, providernet, **attrs):
+        """Update a providernet
+
+        :param providernet:
+            Either the id of a providernet or a
+            :class:`~openstack.network.v2.providernet.Providernet` instance.
+        :attrs kwargs: The attributes to update on the providernet represented
+                       by ``value``.
+
+        :returns: The updated providernet
+        :rtype: :class:`~openstack.network.v2.providernet.Providernet`
+        """
+        return self._update(_providernet.Providernet, providernet, **attrs)
+
+    # providernet range
+    def providernet_ranges(self, **query):
+        """Return a generator of providernet ranges
+
+        :param kwargs \*\*query: Optional query parameters to be sent to limit
+                                 the resources being returned.
+
+        :returns: A generator of providernet range objects
+        :rtype: :class:`~openstack.network.v2.providernet_range
+                        .ProvidernetRange`
+        """
+        return self._list(_providernet_range.ProvidernetRange, paginated=False,
+                          **query)
+
+    def create_providernet_range(self, **attrs):
+        """Create a new providernet_range from attributes
+
+        :param dict attrs: Keyword arguments which will be used to create
+                           a :class:`~openstack.network.v2.providernet_range
+                                     .ProvidernetRange`,
+                           comprised of the properties on the ProvidernetRange
+                           class.
+
+        :returns: The results of providernet range range creation
+        :rtype: :class:`~openstack.network.v2.providernet_range
+                       .ProvidernetRange`
+        """
+        return self._create(_providernet_range.ProvidernetRange, **attrs)
+
+    def delete_providernet_range(self, providernet_range, ignore_missing=True):
+        """Delete a providernet_range
+
+        :param providernet_range:
+            The value can be either the ID of a providernet range or a
+            :class:`~openstack.network.v2.providernet_range.ProvidernetRange`
+                   instance.
+        :param bool ignore_missing: When set to ``False``
+                    :class:`~openstack.exceptions.ResourceNotFound` will be
+                    raised when the providernet_range does not exist.
+                    When set to ``True``, no exception will be set when
+                    attempting to delete a nonexistent ProvidernetRange.
+
+        :returns: ``None``
+        """
+        self._delete(_providernet_range.ProvidernetRange, providernet_range,
+                     ignore_missing=ignore_missing)
+
+    def find_providernet_range(self, name_or_id, ignore_missing=True):
+        """Find a single providernet_range
+
+        :param name_or_id: The name or ID of a providernet range.
+        :param bool ignore_missing: When set to ``False``
+                    :class:`~openstack.exceptions.ResourceNotFound` will be
+                    raised when the resource does not exist.
+                    When set to ``True``, None will be returned when
+                    attempting to find a nonexistent resource.
+        :returns: One :class:`~openstack.network.v2.providernet_range
+                              .ProvidernetRange` or None
+        """
+        return self._find(_providernet_range.ProvidernetRange, name_or_id,
+                          ignore_missing=ignore_missing)
+
+    def get_providernet_range(self, providernet_range):
+        """Get a single providernet_range
+
+        :param providernet_range:
+            The value can be the ID of a providernet range or a
+            :class:`~openstack.network.v2.providernet_range.ProvidernetRange`
+                   instance.
+
+        :returns: One :class:`~openstack.network.v2.providernet_range
+                              .ProvidernetRange`
+        :raises: :class:`~openstack.exceptions.ResourceNotFound`
+                 when no resource can be found.
+        """
+        return self._get(_providernet_range.ProvidernetRange,
+                         providernet_range)
+
+    def update_providernet_range(self, providernet_range, **attrs):
+        """Update a providernet_range
+
+        :param providernet_range:
+            Either the id of a providernet range or a
+            :class:`~openstack.network.v2.providernet_range.ProvidernetRange`
+                    instance.
+        :attrs kwargs: The attributes to update on the providernet_range
+                       represented by ``value``.
+
+        :returns: The updated providernet range
+        :rtype: :class:`~openstack.network.v2.providernet_range
+                        .ProvidernetRange`
+        """
+        return self._update(_providernet_range.ProvidernetRange,
+                            providernet_range, **attrs)
+
+    # qos
+    def qoses(self, **query):
+        """Return a generator of qoses
+
+        :param kwargs \*\*query: Optional query parameters to be sent to limit
+                                 the resources being returned.
+
+        :returns: A generator of qos objects
+        :rtype: :class:`~openstack.network.v2.qos.Qos`
+        """
+        return self._list(_qos.Qos, paginated=False, **query)
+
+    def create_qos(self, **attrs):
+        """Create a new qos from attributes
+
+        :param dict attrs: Keyword arguments which will be used to create
+                           a :class:`~openstack.network.v2.qos.Qos`,
+                           comprised of the properties on the Qos class.
+
+        :returns: The results of qos creation
+        :rtype: :class:`~openstack.network.v2.qos.Qos`
+        """
+        return self._create(_qos.Qos, **attrs)
+
+    def delete_qos(self, qos, ignore_missing=True):
+        """Delete a qos
+
+        :param qos:
+            The value can be either the ID of a qos or a
+            :class:`~openstack.network.v2.qos.Qos` instance.
+        :param bool ignore_missing: When set to ``False``
+                    :class:`~openstack.exceptions.ResourceNotFound` will be
+                    raised when the qos does not exist.
+                    When set to ``True``, no exception will be set when
+                    attempting to delete a nonexistent Qos.
+
+        :returns: ``None``
+        """
+        self._delete(_qos.Qos, qos, ignore_missing=ignore_missing)
+
+    def find_qos(self, name_or_id, ignore_missing=True):
+        """Find a single qos
+
+        :param name_or_id: The name or ID of a qos.
+        :param bool ignore_missing: When set to ``False``
+                    :class:`~openstack.exceptions.ResourceNotFound` will be
+                    raised when the resource does not exist.
+                    When set to ``True``, None will be returned when
+                    attempting to find a nonexistent resource.
+        :returns: One :class:`~openstack.network.v2.qos.Qos` or None
+        """
+        return self._find(_qos.Qos, name_or_id,
+                          ignore_missing=ignore_missing)
+
+    def get_qos(self, qos):
+        """Get a single qos
+
+        :param qos:
+            The value can be the ID of a qos or a
+            :class:`~openstack.network.v2.qos.Qos` instance.
+
+        :returns: One :class:`~openstack.network.v2.qos.Qos`
+        :raises: :class:`~openstack.exceptions.ResourceNotFound`
+                 when no resource can be found.
+        """
+        return self._get(_qos.Qos, qos)
+
+    def update_qos(self, qos, **attrs):
+        """Update a qos
+
+        :param qos:
+            Either the id of a qos or a
+            :class:`~openstack.network.v2.qos.Qos` instance.
+        :attrs kwargs: The attributes to update on the qos represented
+                       by ``value``.
+
+        :returns: The updated qos
+        :rtype: :class:`~openstack.network.v2.qos.Qos`
+        """
+        return self._update(_qos.Qos, qos, **attrs)
+
+    # portforwarding
+    def portforwardings(self, **query):
+        """Return a generator of portforwardings
+
+        :param kwargs \*\*query: Optional query parameters to be sent to limit
+                                 the resources being returned.
+
+        :returns: A generator of portforwarding objects
+        :rtype: :class:`~openstack.network.v2.portforwarding.Portforwarding`
+        """
+        return self._list(_portforwarding.Portforwarding, paginated=False,
+                          **query)
+
+    def create_portforwarding(self, **attrs):
+        """Create a new portforwarding from attributes
+
+        :param dict attrs: Keyword arguments which will be used to create
+                           a :class:`~openstack.network.v2.portforwarding
+                                     .Portforwarding`,
+                           comprised of the properties on the portforwarding
+                           class.
+
+        :returns: The results of portforwarding creation
+        :rtype: :class:`~openstack.network.v2.portforwarding.Portforwarding`
+        """
+        return self._create(_portforwarding.Portforwarding, **attrs)
+
+    def delete_portforwarding(self, portforwarding, ignore_missing=True):
+        """Delete a portforwarding
+
+        :param portforwarding:
+            The value can be either the ID of a portforwarding or a
+            :class:`~openstack.network.v2.portforwarding.Portforwarding`
+                    instance.
+        :param bool ignore_missing: When set to ``False``
+                    :class:`~openstack.exceptions.ResourceNotFound` will be
+                    raised when the portforwarding does not exist.
+                    When set to ``True``, no exception will be set when
+                    attempting to delete a nonexistent portforwarding.
+
+        :returns: ``None``
+        """
+        self._delete(_portforwarding.Portforwarding, portforwarding,
+                     ignore_missing=ignore_missing)
+
+    def find_portforwarding(self, name_or_id, ignore_missing=True):
+        """Find a single portforwarding
+
+        :param name_or_id: The name or ID of a portforwarding.
+        :param bool ignore_missing: When set to ``False``
+                    :class:`~openstack.exceptions.ResourceNotFound` will be
+                    raised when the resource does not exist.
+                    When set to ``True``, None will be returned when
+                    attempting to find a nonexistent resource.
+        :returns: One :class:`~openstack.network.v2.portforwarding
+                              .Portforwarding` or None
+        """
+        return self._find(_portforwarding.Portforwarding, name_or_id,
+                          ignore_missing=ignore_missing)
+
+    def get_portforwarding(self, portforwarding):
+        """Get a single portforwarding
+
+        :param portforwarding:
+            The value can be the ID of a portforwarding or a
+            :class:`~openstack.network.v2.portforwarding.Portforwarding`
+                    instance.
+
+        :returns: One :class:`~openstack.network.v2.portforwarding
+                              .Portforwarding`
+        :raises: :class:`~openstack.exceptions.ResourceNotFound`
+                 when no resource can be found.
+        """
+        return self._get(_portforwarding.Portforwarding, portforwarding)
+
+    def update_portforwarding(self, portforwarding, **attrs):
+        """Update a portforwarding
+
+        :param portforwarding:
+            Either the id of a portforwarding or a
+            :class:`~openstack.network.v2.portforwarding.Portforwarding`
+                    instance.
+        :attrs kwargs: The attributes to update on the portforwarding
+                       represented by ``value``.
+
+        :returns: The updated portforwarding
+        :rtype: :class:`~openstack.network.v2.portforwarding.Portforwarding`
+        """
+        return self._update(_portforwarding.Portforwarding, portforwarding,
+                            **attrs)
+
+    # tenant id
+    def find_tenant(self):
+        """Find the id of the current tenant
+
+        :returns: One :class:`~openstack.network.v2.tenant.Tenant` or None
+        """
+        return self._find(_tenant.Tenant, "tenant",
+                          ignore_missing=False)
+
+    # setting (wrs tenant setting)
+    def settings(self, **query):
+        """Return a generator of settings
+
+        :param kwargs \*\*query: Optional query parameters to be sent to limit
+                                 the resources being returned.
+
+        :returns: A generator of setting objects
+        :rtype: :class:`~openstack.network.v2.setting.Setting`
+        """
+        return self._list(_setting.Setting, paginated=False, **query)
+
+    def delete_setting(self, setting, ignore_missing=True):
+        """Delete a setting
+
+        :param setting:
+            The value can be either the ID of a setting or a
+            :class:`~openstack.network.v2.setting.Setting` instance.
+        :param bool ignore_missing: When set to ``False``
+                    :class:`~openstack.exceptions.ResourceNotFound` will be
+                    raised when the setting does not exist.
+                    When set to ``True``, no exception will be set when
+                    attempting to delete a nonexistent setting.
+
+        :returns: ``None``
+        """
+        self._delete(_setting.Setting, setting, ignore_missing=ignore_missing)
+
+    def find_setting(self, name_or_id, ignore_missing=True):
+        """Find a single setting
+
+        :param name_or_id: The name or ID of a setting.
+        :param bool ignore_missing: When set to ``False``
+                    :class:`~openstack.exceptions.ResourceNotFound` will be
+                    raised when the resource does not exist.
+                    When set to ``True``, None will be returned when
+                    attempting to find a nonexistent resource.
+        :returns: One :class:`~openstack.network.v2.setting.Setting` or None
+        """
+        return self._find(_setting.Setting, name_or_id,
+                          ignore_missing=ignore_missing)
+
+    def get_setting(self, setting):
+        """Get a single setting
+
+        :param setting:
+            The value can be the ID of a setting or a
+            :class:`~openstack.network.v2.setting.Setting` instance.
+
+        :returns: One :class:`~openstack.network.v2.setting.Setting`
+        :raises: :class:`~openstack.exceptions.ResourceNotFound`
+                 when no resource can be found.
+        """
+        return self._get(_setting.Setting, setting)
+
+    def update_setting(self, setting, **attrs):
+        """Update a setting
+
+        :param setting:
+            Either the id of a setting or a
+            :class:`~openstack.network.v2.setting.Setting` instance.
+        :attrs kwargs: The attributes to update on the setting represented
+                       by ``value``.
+
+        :returns: The updated setting
+        :rtype: :class:`~openstack.network.v2.setting.Setting`
+        """
+        return self._update(_setting.Setting, setting, **attrs)
+
+    # host
+    def hosts(self, **query):
+        """Return a generator of hosts
+
+        :param kwargs \*\*query: Optional query parameters to be sent to limit
+                                 the resources being returned.
+
+        :returns: A generator of host objects
+        :rtype: :class:`~openstack.network.v2.host.Host`
+        """
+        return self._list(_host.Host, paginated=False, **query)
+
+    def create_host(self, **attrs):
+        """Create a new host from attributes
+
+        :param dict attrs: Keyword arguments which will be used to create
+                           a :class:`~openstack.network.v2.host.Host`,
+                           comprised of the properties on the Host class.
+
+        :returns: The results of host creation
+        :rtype: :class:`~openstack.network.v2.host.Host`
+        """
+        return self._create(_host.Host, **attrs)
+
+    def delete_host(self, host, ignore_missing=True):
+        """Delete a host
+
+        :param host:
+            The value can be either the ID of a host or a
+            :class:`~openstack.network.v2.host.Host` instance.
+        :param bool ignore_missing: When set to ``False``
+                    :class:`~openstack.exceptions.ResourceNotFound` will be
+                    raised when the host does not exist.
+                    When set to ``True``, no exception will be set when
+                    attempting to delete a nonexistent Host.
+
+        :returns: ``None``
+        """
+        self._delete(_host.Host, host, ignore_missing=ignore_missing)
+
+    def find_host(self, name_or_id, ignore_missing=True):
+        """Find a single host
+
+        :param name_or_id: The name or ID of a host.
+        :param bool ignore_missing: When set to ``False``
+                    :class:`~openstack.exceptions.ResourceNotFound` will be
+                    raised when the resource does not exist.
+                    When set to ``True``, None will be returned when
+                    attempting to find a nonexistent resource.
+        :returns: One :class:`~openstack.network.v2.host.Host` or None
+        """
+        return self._find(_host.Host, name_or_id,
+                          ignore_missing=ignore_missing)
+
+    def get_host(self, host):
+        """Get a single host
+
+        :param host:
+            The value can be the ID of a host or a
+            :class:`~openstack.network.v2.host.Host` instance.
+
+        :returns: One :class:`~openstack.network.v2.host.Host`
+        :raises: :class:`~openstack.exceptions.ResourceNotFound`
+                 when no resource can be found.
+        """
+        return self._get(_host.Host, host)
+
+    def update_host(self, host, **attrs):
+        """Update a host
+
+        :param host:
+            Either the id of a host or a
+            :class:`~openstack.network.v2.host.Host` instance.
+        :attrs kwargs: The attributes to update on the host represented
+                       by ``value``.
+
+        :returns: The updated host
+        :rtype: :class:`~openstack.network.v2.host.Host`
+        """
+        return self._update(_host.Host, host, **attrs)
+
+    # providernet type
+    def providernet_types(self, **query):
+        """Return a generator of providernet types
+
+        :param kwargs \*\*query: Optional query parameters to be sent to limit
+                                 the resources being returned.
+
+        :returns: A generator of providernet type objects
+        :rtype: :class:`~openstack.network.v2.providernet_type.ProvidernetType`
+        """
+        return self._list(_providernet_type.ProvidernetType,
+                          paginated=False, **query)
+
+    # providernet connectivity test
+    def providernet_connectivity_tests(self, **query):
+        """Return a generator of providernet_connectivity_test
+
+        :param kwargs \*\*query: Optional query parameters to be sent to limit
+                                 the resources being returned.
+
+        :returns: A generator of providernet_connectivity_test objects
+        :rtype: :class:`~openstack.network.v2.providernet_connectivity_test
+                                .ProvidernetConnectivityTest`
+        """
+        return self._list(_providernet_connectivity_test
+                          .ProvidernetConnectivityTest,
+                          paginated=False, **query)
+
+    def create_providernet_connectivity_test(self, **attrs):
+        """Create a new providernet_connectivity_test from attributes
+
+        :param dict attrs: Keyword arguments which will be used to create
+                           a :class:`~openstack.network.v2
+                                        .providernet_connectivity_test
+                                        .ProvidernetConnectivityTest`,
+                           comprised of the properties on the class.
+
+        :returns: The results of ProvidernetConnectivityTest creation
+        :rtype: :class:`~openstack.network.v2.providernet_connectivity_test
+                            .ProvidernetConnectivityTest`
+        """
+        return self._create(_providernet_connectivity_test
+                            .ProvidernetConnectivityTest, **attrs)
+
+    # net_list_on_providernet
+    def net_list_on_providernet(self, id, **query):
+        """List the networks on a provider network.
+
+        :param id: ID of a providernet, appended with "/providernet-bindings".
+        :returns: One :class:`~openstack.network.v2.providernet.Providernet`
+                  or None
+        """
+        _providernet_net_list.ProvidernetNetList.base_path = \
+            _providernet_net_list.ProvidernetNetList.default_base_path + id
+
+        return self._list(_providernet_net_list.ProvidernetNetList,
+                          paginated=False, **query)

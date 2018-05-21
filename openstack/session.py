@@ -94,10 +94,12 @@ class Session(_session.Session):
 
         self.profile = profile
         api_version_header = self._get_api_requests()
+        additional_headers = {'wrs-header': 'true'}
+        if api_version_header:
+            additional_headers.update(api_version_header)
         self.endpoint_cache = {}
-
         super(Session, self).__init__(user_agent=self.user_agent,
-                                      additional_headers=api_version_header,
+                                      additional_headers=additional_headers,
                                       **kwargs)
 
     def _get_api_requests(self):

@@ -79,6 +79,8 @@ class Router(resource.Resource, tag.TagMixin):
     #: A list of assocaited tags
     #: *Type: list of tag strings*
     tags = resource.Body('tags', type=list)
+    #: WRS extensions.
+    host = resource.Body('wrs-net:host')
 
     def add_interface(self, session, **body):
         """Add an internal interface to a logical router.

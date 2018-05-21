@@ -49,7 +49,8 @@ class TestSession(testtools.TestCase):
         sot = session.Session(prof)
 
         # The assertion acutally tests the property assigned in parent class
-        self.assertEqual({'openstack-api-version': 'clustering 1.2'},
+        self.assertEqual({'openstack-api-version': 'clustering 1.2',
+                          'wrs-header': 'true'},
                          sot.additional_headers)
 
     def test_init_with_multi_api_requests(self):
@@ -69,7 +70,7 @@ class TestSession(testtools.TestCase):
 
         sot = session.Session(prof)
 
-        self.assertEqual({}, sot.additional_headers)
+        self.assertEqual({'wrs-header': 'true'}, sot.additional_headers)
 
     def _assert_map_exceptions(self, expected_exc, ksa_exc, func):
         os_exc = self.assertRaises(

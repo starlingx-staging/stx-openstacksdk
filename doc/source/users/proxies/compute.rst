@@ -63,6 +63,8 @@ Starting, Stopping, etc.
    .. automethod:: openstack.compute.v2._proxy.Proxy.unrescue_server
    .. automethod:: openstack.compute.v2._proxy.Proxy.evacuate_server
    .. automethod:: openstack.compute.v2._proxy.Proxy.migrate_server
+   .. automethod:: openstack.compute.v2._proxy.Proxy.get_server_console_output
+   .. automethod:: openstack.compute.v2._proxy.Proxy.live_migrate_server
 
 Modifying a Server
 ******************

@@ -243,6 +243,10 @@ class Resource(collections.MutableMapping):
 
     patch_update = False
 
+    # ignores the id field on creating the resource; send a POST instead
+    # of a PUT and do not append the ID to the end of the URL
+    ignore_id_on_create = False
+
     def __init__(self, attrs=None, loaded=False):
         """Construct a Resource to interact with a service's REST API.
 
@@ -579,7 +583,12 @@ class Resource(collections.MutableMapping):
         :raises: :exc:`~openstack.exceptions.MethodNotSupported` if
                  :data:`Resource.allow_create` is not set to ``True``.
         """
-        resp = self.create_by_id(session, self._attrs, self.id, path_args=self)
+        if self.ignore_id_on_create:
+            resp = self.create_by_id(session, self._attrs, None,
+                                     path_args=self)
+        else:
+            resp = self.create_by_id(session, self._attrs, self.id,
+                                     path_args=self)
         self._update_attrs_from_response(resp, include_headers=True)
         self._reset_dirty()
         return self
