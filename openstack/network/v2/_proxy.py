@@ -61,8 +61,6 @@ from openstack.network.v2 import providernet_net_list as _providernet_net_list
 from openstack.network.v2 import providernet_range as _providernet_range
 from openstack.network.v2 import providernet_type as _providernet_type
 from openstack.network.v2 import qos as _qos
-from openstack.network.v2 import setting as _setting
-from openstack.network.v2 import tenant as _tenant
 
 
 class Proxy(proxy2.BaseProxy):
@@ -3408,75 +3406,6 @@ class Proxy(proxy2.BaseProxy):
         """
         return self._find(_tenant.Tenant, "tenant",
                           ignore_missing=False)
-
-    # setting (wrs tenant setting)
-    def settings(self, **query):
-        """Return a generator of settings
-
-        :param kwargs \*\*query: Optional query parameters to be sent to limit
-                                 the resources being returned.
-
-        :returns: A generator of setting objects
-        :rtype: :class:`~openstack.network.v2.setting.Setting`
-        """
-        return self._list(_setting.Setting, paginated=False, **query)
-
-    def delete_setting(self, setting, ignore_missing=True):
-        """Delete a setting
-
-        :param setting:
-            The value can be either the ID of a setting or a
-            :class:`~openstack.network.v2.setting.Setting` instance.
-        :param bool ignore_missing: When set to ``False``
-                    :class:`~openstack.exceptions.ResourceNotFound` will be
-                    raised when the setting does not exist.
-                    When set to ``True``, no exception will be set when
-                    attempting to delete a nonexistent setting.
-
-        :returns: ``None``
-        """
-        self._delete(_setting.Setting, setting, ignore_missing=ignore_missing)
-
-    def find_setting(self, name_or_id, ignore_missing=True):
-        """Find a single setting
-
-        :param name_or_id: The name or ID of a setting.
-        :param bool ignore_missing: When set to ``False``
-                    :class:`~openstack.exceptions.ResourceNotFound` will be
-                    raised when the resource does not exist.
-                    When set to ``True``, None will be returned when
-                    attempting to find a nonexistent resource.
-        :returns: One :class:`~openstack.network.v2.setting.Setting` or None
-        """
-        return self._find(_setting.Setting, name_or_id,
-                          ignore_missing=ignore_missing)
-
-    def get_setting(self, setting):
-        """Get a single setting
-
-        :param setting:
-            The value can be the ID of a setting or a
-            :class:`~openstack.network.v2.setting.Setting` instance.
-
-        :returns: One :class:`~openstack.network.v2.setting.Setting`
-        :raises: :class:`~openstack.exceptions.ResourceNotFound`
-                 when no resource can be found.
-        """
-        return self._get(_setting.Setting, setting)
-
-    def update_setting(self, setting, **attrs):
-        """Update a setting
-
-        :param setting:
-            Either the id of a setting or a
-            :class:`~openstack.network.v2.setting.Setting` instance.
-        :attrs kwargs: The attributes to update on the setting represented
-                       by ``value``.
-
-        :returns: The updated setting
-        :rtype: :class:`~openstack.network.v2.setting.Setting`
-        """
-        return self._update(_setting.Setting, setting, **attrs)
 
     # host
     def hosts(self, **query):

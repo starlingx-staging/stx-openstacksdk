@@ -135,4 +135,3 @@ class Port(resource.Resource, tag.TagMixin):
     #: WRS extensions.
     vif_model = resource.Body('wrs-binding:vif_model')
     mtu = resource.Body('wrs-binding:mtu')
-    mac_filtering = resource.Body('wrs-binding:mac_filtering')
