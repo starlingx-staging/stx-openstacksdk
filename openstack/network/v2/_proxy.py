@@ -60,7 +60,6 @@ from openstack.network.v2 import providernet_connectivity_test \
 from openstack.network.v2 import providernet_net_list as _providernet_net_list
 from openstack.network.v2 import providernet_range as _providernet_range
 from openstack.network.v2 import providernet_type as _providernet_type
-from openstack.network.v2 import qos as _qos
 
 
 class Proxy(proxy2.BaseProxy):
@@ -3226,87 +3225,6 @@ class Proxy(proxy2.BaseProxy):
         return self._update(_providernet_range.ProvidernetRange,
                             providernet_range, **attrs)
 
-    # qos
-    def qoses(self, **query):
-        """Return a generator of qoses
-
-        :param kwargs \*\*query: Optional query parameters to be sent to limit
-                                 the resources being returned.
-
-        :returns: A generator of qos objects
-        :rtype: :class:`~openstack.network.v2.qos.Qos`
-        """
-        return self._list(_qos.Qos, paginated=False, **query)
-
-    def create_qos(self, **attrs):
-        """Create a new qos from attributes
-
-        :param dict attrs: Keyword arguments which will be used to create
-                           a :class:`~openstack.network.v2.qos.Qos`,
-                           comprised of the properties on the Qos class.
-
-        :returns: The results of qos creation
-        :rtype: :class:`~openstack.network.v2.qos.Qos`
-        """
-        return self._create(_qos.Qos, **attrs)
-
-    def delete_qos(self, qos, ignore_missing=True):
-        """Delete a qos
-
-        :param qos:
-            The value can be either the ID of a qos or a
-            :class:`~openstack.network.v2.qos.Qos` instance.
-        :param bool ignore_missing: When set to ``False``
-                    :class:`~openstack.exceptions.ResourceNotFound` will be
-                    raised when the qos does not exist.
-                    When set to ``True``, no exception will be set when
-                    attempting to delete a nonexistent Qos.
-
-        :returns: ``None``
-        """
-        self._delete(_qos.Qos, qos, ignore_missing=ignore_missing)
-
-    def find_qos(self, name_or_id, ignore_missing=True):
-        """Find a single qos
-
-        :param name_or_id: The name or ID of a qos.
-        :param bool ignore_missing: When set to ``False``
-                    :class:`~openstack.exceptions.ResourceNotFound` will be
-                    raised when the resource does not exist.
-                    When set to ``True``, None will be returned when
-                    attempting to find a nonexistent resource.
-        :returns: One :class:`~openstack.network.v2.qos.Qos` or None
-        """
-        return self._find(_qos.Qos, name_or_id,
-                          ignore_missing=ignore_missing)
-
-    def get_qos(self, qos):
-        """Get a single qos
-
-        :param qos:
-            The value can be the ID of a qos or a
-            :class:`~openstack.network.v2.qos.Qos` instance.
-
-        :returns: One :class:`~openstack.network.v2.qos.Qos`
-        :raises: :class:`~openstack.exceptions.ResourceNotFound`
-                 when no resource can be found.
-        """
-        return self._get(_qos.Qos, qos)
-
-    def update_qos(self, qos, **attrs):
-        """Update a qos
-
-        :param qos:
-            Either the id of a qos or a
-            :class:`~openstack.network.v2.qos.Qos` instance.
-        :attrs kwargs: The attributes to update on the qos represented
-                       by ``value``.
-
-        :returns: The updated qos
-        :rtype: :class:`~openstack.network.v2.qos.Qos`
-        """
-        return self._update(_qos.Qos, qos, **attrs)
-
     # portforwarding
     def portforwardings(self, **query):
         """Return a generator of portforwardings
@@ -3397,15 +3315,6 @@ class Proxy(proxy2.BaseProxy):
         """
         return self._update(_portforwarding.Portforwarding, portforwarding,
                             **attrs)
-
-    # tenant id
-    def find_tenant(self):
-        """Find the id of the current tenant
-
-        :returns: One :class:`~openstack.network.v2.tenant.Tenant` or None
-        """
-        return self._find(_tenant.Tenant, "tenant",
-                          ignore_missing=False)
 
     # host
     def hosts(self, **query):
